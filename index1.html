@@ -1,0 +1,441 @@
+
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Discrete Probability Distributions</title>
+
+    <style>
+        * {
+            box-sizing: border-box;
+            margin: 0;
+            padding: 0;
+        }
+
+        body {
+            font-family: Arial, sans-serif;
+            background: #f5f7fb;
+            color: #222;
+            line-height: 1.6;
+        }
+
+        /* Header and Navigation */
+        header {
+            background: #102f59;
+            color: white;
+            padding: 18px 5%;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            flex-wrap: wrap;
+            gap: 15px;
+        }
+
+        header h1 {
+            font-size: 24px;
+        }
+
+        nav {
+            display: flex;
+            flex-wrap: wrap;
+            gap: 8px;
+        }
+
+        nav button {
+            border: none;
+            background: transparent;
+            color: white;
+            padding: 10px 16px;
+            font-size: 15px;
+            cursor: pointer;
+            border-radius: 6px;
+        }
+
+        nav button:hover,
+        nav button.active {
+            background: #174f91;
+        }
+
+        /* Main Content */
+        main {
+            max-width: 1100px;
+            margin: 35px auto;
+            padding: 0 20px;
+        }
+
+        h2 {
+            color: #163b69;
+            font-size: 30px;
+            margin-bottom: 8px;
+        }
+
+        .description {
+            color: #526176;
+            margin-bottom: 24px;
+        }
+
+        /* Cards */
+        .card {
+            background: white;
+            border: 1px solid #dce3ec;
+            border-radius: 10px;
+            padding: 25px;
+            margin-bottom: 20px;
+        }
+
+        .card h3 {
+            color: #163b69;
+            margin-bottom: 15px;
+            border-bottom: 1px solid #e3e8ef;
+            padding-bottom: 10px;
+        }
+
+        /* Form Inputs */
+        .form-group {
+            margin-bottom: 22px;
+            max-width: 500px;
+        }
+
+        label {
+            display: block;
+            font-weight: bold;
+            margin-bottom: 8px;
+        }
+
+        input {
+            width: 100%;
+            padding: 12px;
+            font-size: 16px;
+            border: 1px solid #cbd3df;
+            border-radius: 6px;
+        }
+
+        input:focus {
+            outline: 2px solid #8bbcff;
+            border-color: #174f91;
+        }
+
+        input.invalid {
+            border-color: #dc2626;
+        }
+
+        .help-text {
+            color: #68778a;
+            font-size: 14px;
+            margin-top: 5px;
+        }
+
+        .error {
+            color: #c62828;
+            font-size: 14px;
+            margin-top: 5px;
+        }
+
+        /* Selected Values */
+        .value-row {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            gap: 15px;
+            padding: 12px 0;
+            border-bottom: 1px solid #edf0f5;
+        }
+
+        .value-row:last-child {
+            border-bottom: none;
+        }
+
+        .value {
+            background: #e4efff;
+            color: #174e91;
+            padding: 5px 14px;
+            border-radius: 6px;
+            font-weight: bold;
+        }
+
+        .status {
+            color: #16804a;
+            margin-top: 12px;
+            font-size: 14px;
+        }
+
+        .hidden {
+            display: none;
+        }
+
+        /* Footer */
+        footer {
+            text-align: center;
+            padding: 20px;
+            color: #68778a;
+            background: #eaf0f8;
+            margin-top: 35px;
+        }
+
+        @media (max-width: 650px) {
+            header {
+                flex-direction: column;
+                align-items: flex-start;
+            }
+
+            header h1 {
+                font-size: 21px;
+            }
+
+            nav button {
+                padding: 8px 10px;
+            }
+
+            h2 {
+                font-size: 25px;
+            }
+
+            .card {
+                padding: 18px;
+            }
+        }
+    </style>
+</head>
+
+<body>
+
+<header>
+    <h1>Discrete Probability Distributions</h1>
+
+    <nav>
+        <button class="nav-btn" data-page="home">Home</button>
+        <button class="nav-btn active" data-page="binomial">
+            Binomial
+        </button>
+        <button class="nav-btn" data-page="poisson">Poisson</button>
+        <button class="nav-btn" data-page="geometric">Geometric</button>
+    </nav>
+</header>
+
+<main>
+
+    <!-- Home Page -->
+    <section id="home" class="page hidden">
+        <h2>Welcome to the AIML Probability Lab</h2>
+
+        <p class="description">
+            Learn about discrete probability distributions
+            through interactive laboratory modules.
+        </p>
+
+        <div class="card">
+            <h3>Available Modules</h3>
+
+            <p>1. Binomial Distribution — Available</p>
+            <p>2. Poisson Distribution — Coming soon</p>
+            <p>3. Geometric Distribution — Coming soon</p>
+        </div>
+    </section>
+
+    <!-- Binomial Distribution Page -->
+    <section id="binomial" class="page">
+        <h2>Binomial Distribution</h2>
+
+        <p class="description">
+            The binomial distribution models the number of
+            successes in a fixed number of independent trials.
+        </p>
+
+        <!-- Input Parameters -->
+        <div class="card">
+            <h3>Input Parameters</h3>
+
+            <div class="form-group">
+                <label for="trials">Number of trials (n)</label>
+
+                <input
+                    type="number"
+                    id="trials"
+                    value="20"
+                    min="1"
+                    step="1"
+                    required
+                    aria-describedby="n-help n-error"
+                >
+
+                <p class="help-text" id="n-help">
+                    Enter a positive integer (n ≥ 1).
+                </p>
+
+                <p class="error" id="n-error" role="alert"></p>
+            </div>
+
+            <div class="form-group">
+                <label for="probability">
+                    Probability of success (p)
+                </label>
+
+                <input
+                    type="number"
+                    id="probability"
+                    value="0.35"
+                    min="0"
+                    max="1"
+                    step="any"
+                    required
+                    aria-describedby="p-help p-error"
+                >
+
+                <p class="help-text" id="p-help">
+                    Enter a probability between 0 and 1,
+                    inclusive (0 ≤ p ≤ 1).
+                </p>
+
+                <p class="error" id="p-error" role="alert"></p>
+            </div>
+        </div>
+
+        <!-- Selected Values -->
+        <div class="card">
+            <h3>Selected Values</h3>
+
+            <div class="value-row">
+                <strong>Number of trials (n):</strong>
+                <span class="value" id="selected-n">20</span>
+            </div>
+
+            <div class="value-row">
+                <strong>Probability of success (p):</strong>
+                <span class="value" id="selected-p">0.35</span>
+            </div>
+
+            <p class="status" id="status">
+                Both parameters are valid.
+            </p>
+        </div>
+    </section>
+
+    <!-- Poisson Distribution Page -->
+    <section id="poisson" class="page hidden">
+        <h2>Poisson Distribution</h2>
+        <p class="description">
+            This module will be implemented in a future stage.
+        </p>
+    </section>
+
+    <!-- Geometric Distribution Page -->
+    <section id="geometric" class="page hidden">
+        <h2>Geometric Distribution</h2>
+        <p class="description">
+            This module will be implemented in a future stage.
+        </p>
+    </section>
+
+</main>
+
+<footer>
+    Discrete Probability Distributions | AIML Laboratory
+</footer>
+
+<script>
+    // Navigation between pages
+    const navButtons = document.querySelectorAll(".nav-btn");
+    const pages = document.querySelectorAll(".page");
+
+    navButtons.forEach(button => {
+        button.addEventListener("click", () => {
+            const pageName = button.dataset.page;
+
+            pages.forEach(page => {
+                page.classList.add("hidden");
+            });
+
+            document.getElementById(pageName)
+                .classList.remove("hidden");
+
+            navButtons.forEach(btn => {
+                btn.classList.remove("active");
+            });
+
+            button.classList.add("active");
+        });
+    });
+
+    // Binomial input elements
+    const trialsInput = document.getElementById("trials");
+    const probabilityInput =
+        document.getElementById("probability");
+
+    const selectedN = document.getElementById("selected-n");
+    const selectedP = document.getElementById("selected-p");
+
+    const nError = document.getElementById("n-error");
+    const pError = document.getElementById("p-error");
+    const status = document.getElementById("status");
+
+    // Validate inputs and update selected values
+    function validateInputs() {
+        const nText = trialsInput.value.trim();
+        const pText = probabilityInput.value.trim();
+
+        const n = Number(nText);
+        const p = Number(pText);
+
+        const validN =
+            nText !== "" &&
+            Number.isSafeInteger(n) &&
+            n >= 1;
+
+        const validP =
+            pText !== "" &&
+            Number.isFinite(p) &&
+            p >= 0 &&
+            p <= 1;
+
+        // Number of trials validation
+        if (!validN) {
+            nError.textContent =
+                "Enter a positive integer for n.";
+            trialsInput.classList.add("invalid");
+            trialsInput.setAttribute("aria-invalid", "true");
+        } else {
+            nError.textContent = "";
+            trialsInput.classList.remove("invalid");
+            trialsInput.setAttribute("aria-invalid", "false");
+            selectedN.textContent = n;
+        }
+
+        // Probability validation
+        if (!validP) {
+            pError.textContent =
+                "Enter a probability between 0 and 1.";
+            probabilityInput.classList.add("invalid");
+            probabilityInput.setAttribute(
+                "aria-invalid", "true"
+            );
+        } else {
+            pError.textContent = "";
+            probabilityInput.classList.remove("invalid");
+            probabilityInput.setAttribute(
+                "aria-invalid", "false"
+            );
+            selectedP.textContent = p;
+        }
+
+        // Overall validation status
+        if (validN && validP) {
+            status.textContent = "Both parameters are valid.";
+            status.style.color = "#16804a";
+        } else {
+            status.textContent =
+                "Please correct the invalid input(s).";
+            status.style.color = "#c62828";
+        }
+    }
+
+    // Update values whenever inputs change
+    trialsInput.addEventListener("input", validateInputs);
+    probabilityInput.addEventListener("input", validateInputs);
+
+    // Validate initial default values
+    validateInputs();
+</script>
+
+</body>
+</html>
